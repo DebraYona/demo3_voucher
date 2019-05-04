@@ -36,8 +36,6 @@ if __name__ == '__main__':
 @app.route('/buscar', methods=['GET'])
 def get():
     numero_voucher=request.args.get('numero_voucher')
-    nombre_alumno=request.args.get('nombre_alumno')
-    codigo_alumno=request.args.get('codigo_alumno')
     
     print(numero_voucher)
     conn =mysql.connect()
@@ -45,6 +43,9 @@ def get():
 
     alumno= cur.callproc('ByVoucher', (numero_voucher))
     cur.fetchall()
+
+    if cur.rowcount == 0:
+        return jsonify({'resultado' :'no encontrado' })
 
     conn.commit()
 
